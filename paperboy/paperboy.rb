@@ -5,19 +5,14 @@ class Paperboy
 
   def initialize(name, side)
     @name = name
-    experience = 0
-    @experience = experience
+    @experience = 0
     @side = side.downcase
-    earnings = 0
-    @earnings = earnings
+    @earnings = 0
+
   end
 
   def quota
-    if @experience > 0
-      return @experience/2
-    else
-      return 50
-    end
+    return (@experience/2) + 50
   end
 
   def deliver(start_address,end_address)
@@ -52,7 +47,7 @@ class Paperboy
       earned_today = quota*0.25
     # if delivery is m more than quota
     elsif total_houses > quota
-      earned_today = quota*0.25 + (total_houses-quota)*0.50
+      earned_today = quota*0.25) + (total_houses-quota)*0.50
     # if delivery is less than quota
     else
       earned_today = (quota*0.25)-2
@@ -61,7 +56,6 @@ class Paperboy
     @earnings += earned_today
     @experience += total_houses
 
-    puts earned_today
   end
 
   def report
@@ -70,7 +64,13 @@ class Paperboy
 end
 
 tommy = Paperboy.new("Tommy", "even")
-puts tommy.quota
+
+tommy.quota
 tommy.deliver(101, 220)
-puts tommy.earnings
+tommy.earnings
+tommy.report
+
+tommy.quota
+tommy.deliver(1, 150)
+tommy.earnings
 tommy.report
