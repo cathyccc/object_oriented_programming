@@ -34,6 +34,8 @@ class Paperboy
       start_address += 1
     end
 
+      # puts "even houses: #{even_houses}"
+
     # separates even vs. odd houses for calculation
     if @side == "even"
       total_houses = even_houses
@@ -50,7 +52,7 @@ class Paperboy
       earned_today = (quota*0.25) + (total_houses-quota)*0.50
     # if delivery is less than quota
     else
-      earned_today = (quota*0.25)-2
+      earned_today = (total_houses*0.25)-2
     end
 
     @earnings += earned_today
