@@ -1,16 +1,23 @@
 class Item
-  attr_accessor :price, :item_name, :import, :type,
+  attr_reader :item_name, :price, :import
+  attr_accessor :type
+
+  @bfm = false
+  @@sales_tax_total = 0
 
   def initialize(item_name,type,price,import)
     @item_name = item_name
     @price = price
     @type = type.downcase
     @import = import
-    @bfm = false
   end
 
   def purchase
-    puts "Item: #{@item_name}  Price: #{@price}  Type: #{@type}  Import: #{@import}"
+    if @import == true
+      puts "1 imported #{@item_name} at #{"%.2f" % @price}"
+    else
+      puts "1 #{@item_name} at #{"%.2f" % @price}"
+    end
   end
 
   def after_tax
@@ -21,29 +28,19 @@ class Item
     end
 
     if @bfm == true && @import == false
-      item_taxed = @price.round(2)
-      puts "$ #{item_taxed}"
+      item_taxed = @price
+      puts "$ #{"%.2f"% item_taxed}"
     elsif @bfm == false && @import == false
-      item_taxed = (@price *= 1.10).round(2)
-      puts "$ #{item_taxed}"
+      item_taxed = @price * 1.10
+      puts "$ #{"%.2f"% item_taxed}"
     elsif @bfm == true && @import == true
-      item_taxed =(@price *= 1.05).round(2)
-      puts "$ #{item_taxed}"
+      item_taxed = @price * 1.05
+      puts "$ #{"%.2f"% item_taxed}"
     elsif @bfm == false && @import == true
-      item_taxed = (@price *= 1.15).round(2)
-      puts "$ #{item_taxed}"
+      item_taxed = @price * 1.15
+      puts "$ #{"%.2f"% item_taxed}"
     end
+
+    @@sales_tax_total += item_taxed - @price
   end
 end
-
-
-#testing
-book = Item.new("magazine","book",1,false)
-shirt = Item.new("pants","clothing",1,false)
-cake = Item.new("birthday cake","food",1,true)
-pen = Item.new("pen","stationary",1,true)
-
-book.after_tax
-shirt.after_tax
-cake.after_tax
-pen.after_tax
