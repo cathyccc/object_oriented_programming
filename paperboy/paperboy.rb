@@ -47,7 +47,7 @@ class Paperboy
       earned_today = quota*0.25
     # if delivery is m more than quota
     elsif total_houses > quota
-      earned_today = quota*0.25) + (total_houses-quota)*0.50
+      earned_today = (quota*0.25) + (total_houses-quota)*0.50
     # if delivery is less than quota
     else
       earned_today = (quota*0.25)-2
