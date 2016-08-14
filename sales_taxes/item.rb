@@ -1,18 +1,18 @@
 class Item
-  attr_reader :item_name, :price, :import
-  attr_accessor :type
+  attr_reader :item_name, :price, :import, :type
 
-  @bfm = false
   @@sales_tax_total = 0
+
+  def self.sales_tax_total
+    @@sales_tax_total
+  end
 
   def initialize(item_name,type,price,import)
     @item_name = item_name
     @price = price
     @type = type.downcase
     @import = import
-  end
 
-  def purchase
     if @import == true
       puts "1 imported #{@item_name} at #{"%.2f" % @price}"
     else
@@ -20,27 +20,43 @@ class Item
     end
   end
 
-  def after_tax
-    if @type == "book" || @type == "food" || @type == "med" || @type == "medicine" || @type == "medical" || @type == "books"
-      @bfm = true
+  # checks if it is an exempted good
+  def check_bfm
+    case @type
+    when "book","books","food","medical","med","medicine"
+      bfm = true
     else
-      @bfm = false
+      bfm = false
     end
-
-    if @bfm == true && @import == false
-      item_taxed = @price
-      puts "$ #{"%.2f"% item_taxed}"
-    elsif @bfm == false && @import == false
-      item_taxed = @price * 1.10
-      puts "$ #{"%.2f"% item_taxed}"
-    elsif @bfm == true && @import == true
-      item_taxed = @price * 1.05
-      puts "$ #{"%.2f"% item_taxed}"
-    elsif @bfm == false && @import == true
-      item_taxed = @price * 1.15
-      puts "$ #{"%.2f"% item_taxed}"
-    end
-
-    @@sales_tax_total += item_taxed - @price
   end
+
+  # defines price after tax
+  def after_tax
+    case check_bfm
+    when true
+      # exempted and imported goods
+      if @import == true
+        item_taxed = @price * 1.05
+
+      # exempted and domestic goods
+      else
+        item_taxed = @price
+      end
+
+    when false
+      # taxable and imported goods
+      if @import == true
+        item_taxed = @price * 1.15
+
+      # taxable and domestic goods
+      else
+        item_taxed = @price * 1.10
+      end
+    end
+
+    puts "$ #{"%.2f" % item_taxed.round(2)}"
+    @@sales_tax_total += item_taxed - @price
+
+  end
+
 end
