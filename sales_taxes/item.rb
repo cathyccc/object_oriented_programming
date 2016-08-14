@@ -1,10 +1,21 @@
 class Item
   attr_reader :item_name, :price, :import, :type
+  attr_accessor :taxed
 
+  @@total = 0
   @@sales_tax_total = 0
+  @@grocery_list =[]
+
+  def self.grocery_list
+    @@grocery_list
+  end
 
   def self.sales_tax_total
     @@sales_tax_total
+  end
+
+  def self.total
+    @@total
   end
 
   def initialize(item_name,type,price,import)
@@ -13,11 +24,11 @@ class Item
     @type = type.downcase
     @import = import
 
-    if @import == true
-      puts "1 imported #{@item_name} at #{"%.2f" % @price}"
-    else
-      puts "1 #{@item_name} at #{"%.2f" % @price}"
-    end
+    # if @import == true
+    #   puts "1 imported #{@item_name} at #{"%.2f" % @price}"
+    # else
+    #   puts "1 #{@item_name} at #{"%.2f" % @price}"
+    # end
   end
 
   # checks if it is an exempted good
@@ -53,10 +64,20 @@ class Item
         item_taxed = @price * 1.10
       end
     end
-
-    puts "$ #{"%.2f" % item_taxed.round(2)}"
     @@sales_tax_total += item_taxed - @price
+    "$ #{"%.2f" % item_taxed.round(2)}"
 
   end
+
+  def scan
+    if @import == true
+      #@@grocery_list << "1 imported #{@item_name}: #{after_tax}"
+      puts "1 imported #{@item_name}: #{after_tax}"
+    else
+      #@@grocery_list << "1 #{@item_name}: #{after_tax}"
+      puts "1 #{@item_name}: #{after_tax}"
+    end
+  end
+
 
 end
