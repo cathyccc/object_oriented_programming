@@ -29,6 +29,8 @@ class Item
     # else
     #   puts "1 #{@item_name} at #{"%.2f" % @price}"
     # end
+
+    scan
   end
 
   # checks if it is an exempted good
@@ -65,17 +67,16 @@ class Item
       end
     end
     @@sales_tax_total += item_taxed - @price
-    "$ #{"%.2f" % item_taxed.round(2)}"
+    @@total += item_taxed
+    return "$ #{"%.2f" % item_taxed.round(2)}"
 
   end
 
   def scan
     if @import == true
-      #@@grocery_list << "1 imported #{@item_name}: #{after_tax}"
-      puts "1 imported #{@item_name}: #{after_tax}"
+      @@grocery_list << "1 imported #{@item_name}: #{after_tax}"
     else
-      #@@grocery_list << "1 #{@item_name}: #{after_tax}"
-      puts "1 #{@item_name}: #{after_tax}"
+      @@grocery_list << "1 #{@item_name}: #{after_tax}"
     end
   end
 

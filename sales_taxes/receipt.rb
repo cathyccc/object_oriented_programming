@@ -2,17 +2,26 @@ require_relative "item"
 
 class Receipt
   def add
+    return "#{"%.2f" % Item.total}"
+  end
+
+  def list_items
+    Item.grocery_list.each do |purchases|
+      puts purchases
+    end
   end
 
   def report
-    puts "Sales Tax: $ #{ Item.sales_tax_total }"
+    puts "Sales Tax: $ #{ "%.2f" % Item.sales_tax_total }"
+    puts "Total: #{add}"
   end
 end
 
 #testing
-book = Item.new("magazine","book",1,true)
-shirt = Item.new("shirt","clothing",10,false)
-pen = Item.new("pen","stationary",1,true)
-medicine = Item.new("medicine","med",1,false)
-book.scan
-shirt.scan
+book = Item.new("book","book",12.49,false)
+cd = Item.new("music cd","entertainment",14.99,false)
+chocolate = Item.new("chocolate bar","food",0.85,false)
+
+receipt1 = Receipt.new
+receipt1.list_items
+receipt1.report
