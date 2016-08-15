@@ -23,13 +23,6 @@ class Item
     @price = price
     @type = type.downcase
     @import = import
-
-    # if @import == true
-    #   puts "1 imported #{@item_name} at #{"%.2f" % @price}"
-    # else
-    #   puts "1 #{@item_name} at #{"%.2f" % @price}"
-    # end
-
     scan
   end
 
@@ -50,7 +43,6 @@ class Item
       # exempted and imported goods
       if @import == true
         item_taxed = @price * 1.05
-
       # exempted and domestic goods
       else
         item_taxed = @price
@@ -60,16 +52,16 @@ class Item
       # taxable and imported goods
       if @import == true
         item_taxed = @price * 1.15
-
       # taxable and domestic goods
       else
         item_taxed = @price * 1.10
       end
     end
-    @@sales_tax_total += item_taxed - @price
-    @@total += item_taxed
-    return "$ #{"%.2f" % item_taxed.round(2)}"
-
+    #rounds to nearest 0.05
+    round = (item_taxed*20).ceil.to_f/20
+    @@sales_tax_total += round - @price
+    @@total += round
+    return "$ #{"%.2f" % round}"
   end
 
   def scan
@@ -79,6 +71,5 @@ class Item
       @@grocery_list << "1 #{@item_name}: #{after_tax}"
     end
   end
-
 
 end
